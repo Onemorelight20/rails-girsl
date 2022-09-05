@@ -2,13 +2,20 @@
 
 <h1>Ideas</h1>
 
-<div id="ideas">
-  <% @ideas.each do |idea| %>
-    <%= render idea %>
-    <p>
-      <%= link_to "Show this idea", idea %>
-    </p>
-  <% end %>
-</div>
+<!--<div id="ideas">-->
+  <%# @ideas.each do |idea| %>
+    <%#= render idea %>
+<!--    <p>-->
+      <%#= link_to "Show this idea", idea %>
+<!--    </p>-->
+  <%# end %>
+<!--</div>-->
 
-<%= link_to "New idea", new_idea_path %>
+<% @ideas.in_groups_of(3) do |group| %>
+  <div class="row">
+    <% group.compact.each do |idea| %>
+      <%= render idea %>
+    <% end %>
+  </div>
+<% end %>
+

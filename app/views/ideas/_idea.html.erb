@@ -1,4 +1,4 @@
-<div id="<%= dom_id idea %>">
+<div class="mx-4 bg-primary" id="<%= dom_id idea %>">
   <p>
     <strong>Name:</strong>
     <%= idea.name %>
@@ -14,4 +14,21 @@
     <%= image_tag(idea.picture_url, width: 100) if idea.picture.present? %>
   </p>
 
+
+  <p>
+    <%= link_to "Show this idea", idea, style: 'color: black;' %>
+  </p>
+
+  <% unless @comments.nil? %>
+  <h3>Comments</h3>
+  <%  @comments.each do |comment|  %>
+  <div>
+    <strong><%=  comment.user_name  %></strong>
+    <br>
+    <p><%=  comment.body  %></p>
+    <p><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+  </div>
+  <% end %>
+  <%=  render partial: 'comments/form', locals: { comment: @comment }  %>
+  <% end %>
 </div>
