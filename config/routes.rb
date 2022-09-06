@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
@@ -6,7 +8,7 @@ Rails.application.routes.draw do
   get 'pages/info'
 
 
-  resources :ideas
+  resources :ideas, only: [:show, :index]
 
   authenticated :user do
     root 'ideas#index', as: :authenticated_root

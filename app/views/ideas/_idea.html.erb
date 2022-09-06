@@ -25,13 +25,9 @@
     <%= link_to "Show this idea", idea, style: 'color: black;' %>
   </p>
     <% elsif current_page?(idea) and (idea.user_id == current_user.id) %>
-    <div class="d-grid gap-2">
-  <%= button_to "Edit this idea", edit_idea_path(@idea), method: :get %>
 
-  <%= button_to "Destroy this idea", @idea, method: :delete, class: 'btn' %>
-  <% end %></div>
+  <% end %>
 
-</div>
 </div>
 
 
