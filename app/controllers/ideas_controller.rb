@@ -1,6 +1,8 @@
 class IdeasController < ApplicationController
   before_action :set_idea, only: %i[ show edit update destroy ]
 
+  before_action :access_to_edit, only: %i[edit update destroy]
+
   # GET /ideas or /ideas.json
   def index
     @ideas = Idea.all
@@ -24,7 +26,7 @@ class IdeasController < ApplicationController
   # POST /ideas or /ideas.json
   def create
     @idea = Idea.new(idea_params)
-
+    @idea.user_id = current_user.id
     respond_to do |format|
       if @idea.save
         format.html { redirect_to idea_url(@idea), notice: "Idea was successfully created." }
@@ -69,4 +71,11 @@ class IdeasController < ApplicationController
     def idea_params
       params.require(:idea).permit(:name, :description, :picture)
     end
+
+  def access_to_edit
+    @idea = Idea.find(params[:id])
+    if @idea.user.id != current_user.id
+      redirect_to idea_url(@idea), alert: "No permission to edit not your idea."
+    end
+  end
 end

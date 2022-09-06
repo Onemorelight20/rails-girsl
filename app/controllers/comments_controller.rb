@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
 
+  before_action :access_to_edit, only: %i[edit update destroy]
+
   # GET /comments or /comments.json
   def index
     @comments = Comment.all
@@ -22,7 +24,7 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @comment = Comment.new(comment_params)
-
+    @comment.user_id = current_user.id
     respond_to do |format|
       if @comment.save
         format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
@@ -67,4 +69,11 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:user_name, :body, :idea_id)
     end
+
+  def access_to_edit
+    @comment = Comment.find(params[:id])
+    if @comment.user.id != current_user.id
+      redirect_to idea_url(@idea), alert: "No permission to edit not your comment."
+    end
+  end
 end

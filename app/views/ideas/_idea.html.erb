@@ -1,7 +1,13 @@
-<div class="card p-2 my-2" id="<%= dom_id idea %>">
+
+<div class="container card p-2 my-2" id="<%= dom_id idea %>">
   <p>
     <strong>Name:</strong>
     <%= idea.name %>
+  </p>
+
+  <p>
+    <strong>Author:</strong>
+    <%= idea.user.name %>
   </p>
 
   <p>
@@ -14,24 +20,18 @@
     <%= image_tag idea.picture_url(:thumb) if idea.picture.present? %>
   </p>
 
-
+  <% if !current_page?(idea) %>
   <p>
     <%= link_to "Show this idea", idea, style: 'color: black;' %>
   </p>
+    <% elsif current_page?(idea) and (idea.user_id == current_user.id) %>
+    <div class="d-grid gap-2">
+  <%= button_to "Edit this idea", edit_idea_path(@idea), method: :get %>
+
+  <%= button_to "Destroy this idea", @idea, method: :delete, class: 'btn' %>
+  <% end %></div>
 
 </div>
+</div>
 
-<% unless @comments.nil? %>
-  <div class="mt-2">
-  <h3>Comments</h3>
-  <%  @comments.each do |comment|  %>
-    <div>
-      <strong><%=  comment.user_name  %></strong>
-      <br>
-      <p><%=  comment.body  %></p>
-      <p><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %></p>
-    </div>
-  <% end %>
-  <%=  render partial: 'comments/form', locals: { comment: @comment }  %>
-  </div>
-<% end %>
+
