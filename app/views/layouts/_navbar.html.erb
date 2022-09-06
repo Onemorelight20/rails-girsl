@@ -24,6 +24,7 @@
           <span>Logged in as  <strong><%= current_user.email %></strong>.</span>
           <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link mx-2' %> |
           <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo: "false" }, class: 'mx-2' %>
+          <%= image_tag current_user.gravatar_url, :class => "gravatar" %>
         <% else %>
           <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link mx-2'  %> |
           <%= link_to "Login", new_user_session_path, :class => 'navbar-link mx-2'  %>
